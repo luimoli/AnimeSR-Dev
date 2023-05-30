@@ -1,8 +1,7 @@
 # flake8: noqa
 import os,sys
-# print(sys.path)
-sys.path.append("/home/mengmengliu/code/AnimeSR")
-# print(sys.path)
+sys.path.append(os.getcwd())
+
 
 
 import os.path as osp

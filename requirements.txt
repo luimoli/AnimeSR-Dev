@@ -1,7 +1,7 @@
 basicsr
 facexlib
 ffmpeg-python
-numpy
+# numpy
 opencv-python
 pillow
 psutil

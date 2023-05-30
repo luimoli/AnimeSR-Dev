@@ -13,7 +13,7 @@ from os import path as osp
 from tqdm import tqdm
 
 import os,sys
-sys.path.append("/home/mengmengliu/code/AnimeSR")
+sys.path.append(os.getcwd())
 
 from animesr.utils.inference_base import get_base_argument_parser, get_inference_model
 from animesr.utils.video_util import frames2video
