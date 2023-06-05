@@ -225,6 +225,21 @@ def main():
 
 
         # prepare
+        # prev = read_img_crop(
+        #     imgs_list[0],
+        #     require_mod_crop=True,
+        #     mod_scale=args.mod_scale,
+        #     input_rescaling_factor=args.input_rescaling_factor,
+        #     rows=args.crop_rows,
+        #     cols=args.crop_cols)
+        # cur = prev
+        # nxt = read_img_crop(
+        #     imgs_list[min(1, num_imgs - 1)],
+        #     require_mod_crop=True,
+        #     mod_scale=args.mod_scale,
+        #     input_rescaling_factor=args.input_rescaling_factor,
+        #     rows=args.crop_rows,
+        #     cols=args.crop_cols)
         prev = [img.to(device) for img in read_img_crop(
             imgs_list[0],
             require_mod_crop=True,
@@ -243,8 +258,8 @@ def main():
         # c, h, w = prev.size()[-3:]
         # state = prev.new_zeros(1, 64, h, w)
         # out = prev.new_zeros(1, c, h * args.netscale, w * args.netscale)
-        state = [prev[i].new_zeros(1, 64, prev[i].size()[-2], prev[i].size()[-1]) for i in range(len(prev))]
-        out = [prev[i].new_zeros(1, prev[i].size()[-3], prev[i].size()[-2]* args.netscale, prev[i].size()[-1]* args.netscale) for i in range(len(prev))]
+        state = [prev[i].new_zeros(1, 64, prev[i].size()[-2], prev[i].size()[-1]).to(device) for i in range(len(prev))]
+        out = [prev[i].new_zeros(1, prev[i].size()[-3], prev[i].size()[-2]* args.netscale, prev[i].size()[-1]* args.netscale).to(device) for i in range(len(prev))]
 
 
         pbar2 = tqdm(total=num_imgs, unit='frame', desc='inference')
@@ -257,10 +272,12 @@ def main():
 
 
             for i in range(len(prev)):
+                # out_tmp, state_tmp = model.cell(torch.cat((prev[i].to(device), cur[i].to(device), nxt[i].to(device)), dim=1), out[i], state[i])
                 out_tmp, state_tmp = model.cell(torch.cat((prev[i], cur[i], nxt[i]), dim=1), out[i], state[i])
+                # out_list.append(out_tmp.cpu().clone())
                 out[i] = out_tmp
+                # state_list.append(state_tmp.cpu().clone())
                 state[i] = state_tmp
-
 
             torch.cuda.synchronize()
             model_time = time.time() - start
@@ -278,6 +295,13 @@ def main():
             start = time.time()
             prev = cur
             cur = nxt
+            # nxt = read_img_crop(
+            #     imgs_list[min(idx + 2, num_imgs - 1)],
+            #     require_mod_crop=True,
+            #     mod_scale=args.mod_scale,
+            #     input_rescaling_factor=args.input_rescaling_factor,
+            #     rows=args.crop_rows,
+            #     cols=args.crop_cols)
             nxt = [img.to(device) for img in read_img_crop(
                 imgs_list[min(idx + 2, num_imgs - 1)],
                 require_mod_crop=True,

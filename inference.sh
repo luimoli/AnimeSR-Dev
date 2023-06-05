@@ -15,3 +15,7 @@ do
     CUDA_VISIBLE_DEVICES=6 python scripts/inference_animesr_frames.py -i inputs/$input_folder -n $weight_name --expname $expname --save_video_too --fps 20
     echo '******************Inference Finished*****************'
 done
+
+# crop script
+CUDA_VISIBLE_DEVICES=0 python scripts/inference_animesr_frames_crop_savegpu.py -i inputs/C -n AnimeSR_v2 -s 2 --expname animesr_v2_s2 --crop_rows 4 --crop_cols 4
+CUDA_VISIBLE_DEVICES=0 python scripts/inference_animesr_frames_crop.py -i inputs/C -n AnimeSR_v2 -s 2 --expname animesr_v2_s2 --crop_rows 4 --crop_cols 16
