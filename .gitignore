@@ -6,6 +6,8 @@ wandb/*
 tmp/*
 weights/*
 inputs/*
+sdk_*/
+test.py
 
 *.DS_Store
 

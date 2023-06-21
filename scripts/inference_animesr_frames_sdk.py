@@ -44,7 +44,8 @@ def read_img(path, require_mod_crop=True, mod_scale=4, input_rescaling_factor=1.
         img = mod_crop(img, mod_scale)
 
     img = img2tensor(img, bgr2rgb=True, float32=True)
-    np.save(os.path.basename(path)+'.npy', img.unsqueeze(0)numpy())
+    # print(img.unsqueeze(0).numpy().shape)
+    np.save(os.path.basename(path)[:-4]+'_in.npy', img.unsqueeze(0).numpy())
     return img.unsqueeze(0)
 
 
@@ -67,6 +68,9 @@ class IOConsumer(threading.Thread):
 
             output = msg['output']
             imgname = msg['imgname']
+            # print('output_imgname:',imgname)
+            # print(output.numpy().shape, type(output.numpy()))
+            np.save(os.path.basename(imgname)[:-4]+'_out.npy', output.numpy())
             out_img = tensor2img(output.squeeze(0))
             if self.args.outscale != self.args.netscale:
                 h, w = out_img.shape[:2]
