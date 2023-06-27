@@ -47,7 +47,9 @@ def get_inference_model(args, device) -> MSRSWVSR:
     # set up model
     model = MSRSWVSR(num_feat=64, num_block=[5, 3, 2], netscale=args.netscale)
 
-    model_path = f'weights/{args.model_name}.pth'
+    # model_path = f'weights/{args.model_name}.pth'
+    model_path = f'{args.model_name}.pth'
+
     assert os.path.isfile(model_path), \
         f'{model_path} does not exist, please make sure you successfully download the pretrained models ' \
         f'and put them into the weights folder'
@@ -55,8 +57,8 @@ def get_inference_model(args, device) -> MSRSWVSR:
     # load checkpoint
     loadnet = torch.load(model_path)
 
-    model.load_state_dict(loadnet, strict=True)
-    # model.load_state_dict(loadnet['params'], strict=True)
+    # model.load_state_dict(loadnet, strict=True)
+    model.load_state_dict(loadnet['params'], strict=True)
     # model.load_state_dict(loadnet['params_ema'], strict=True)
 
     

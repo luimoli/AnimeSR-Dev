@@ -1,5 +1,5 @@
 # general settings
-name: train_animesr_step3_gan_3LBOs_2
+name: train_animesr_step3_gan_3LBOs_datasetV1
 model_type: VideoRecurrentGANCustomModel
 scale: 4
 num_gpu: auto  # set num_gpu: 0 for cpu mode
@@ -16,12 +16,12 @@ datasets:
     name: AVC-Train
     type: FFMPEGAnimeLBODataset
     # dataroot_gt: datasets/AVC-Train  # TO_MODIFY
-    dataroot_gt: /dataset/mengmengliu/AnimeEdge/train/train_sharp  # TO_MODIFY
+    dataroot_gt: /data/anime/AnimeEdge_V1/train/  # TO_MODIFY
     test_mode: False
     io_backend:
       type: disk
 
-    num_frame: 15
+    num_frame: 9
     gt_size: 256
     interval_list: [1, 2, 3]
     random_reverse: True
@@ -30,7 +30,8 @@ datasets:
     usm_sharp_gt: False
     # degradation_model_path: [weights/pretrained_lbo_1.pth, weights/pretrained_lbo_2.pth, weights/pretrained_lbo_3.pth]  # TO_MODIFY
     # degradation_model_path: [weights/pretrained_lbo_1.pth, weights/pretrained_lbo_2.pth]  # TO_MODIFY
-    degradation_model_path: [weights/pretrained_lbo_1.pth]  # TO_MODIFY
+    # degradation_model_path: [weights/pretrained_lbo_1.pth]  # TO_MODIFY
+    degradation_model_path: [weights/pretrained_lbo_from_paper/pretrained_lbo_1.pth, weights/pretrained_lbo_from_paper/pretrained_lbo_2.pth, weights/pretrained_lbo_from_paper/pretrained_lbo_3.pth]  # TO_MODIFY
 
 
     # data loader
@@ -60,7 +61,7 @@ network_d:
 
 # path
 path:
-  pretrain_network_g: experiments/train_animesr_step1_net_BasicOPonly/models/net_g_300000.pth
+  pretrain_network_g: experiments/train_animesr_step1_net_BasicOPonly_datasetV1/models/net_g_300000.pth
   param_key_g: params
   strict_load_g: true
   resume_state: ~
