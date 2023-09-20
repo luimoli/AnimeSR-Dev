@@ -240,9 +240,7 @@ def main():
             input_rescaling_factor=args.input_rescaling_factor,
             rows=args.crop_rows,
             cols=args.crop_cols)]
-        # c, h, w = prev.size()[-3:]
-        # state = prev.new_zeros(1, 64, h, w)
-        # out = prev.new_zeros(1, c, h * args.netscale, w * args.netscale)
+
         state = [prev[i].new_zeros(1, 64, prev[i].size()[-2], prev[i].size()[-1]) for i in range(len(prev))]
         out = [prev[i].new_zeros(1, prev[i].size()[-3], prev[i].size()[-2]* args.netscale, prev[i].size()[-1]* args.netscale) for i in range(len(prev))]
 

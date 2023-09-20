@@ -6,6 +6,7 @@ wandb/*
 tmp/*
 weights/*
 inputs/*
+inputs_*/*
 sdk_*/
 test.py
 
